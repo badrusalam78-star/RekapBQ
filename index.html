@@ -1,0 +1,1141 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Infaq Bulanan - LPQ Baitul Qurro Cikiwul</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .islamic-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 2px, transparent 2px);
+            background-size: 40px 40px;
+        }
+        
+        .geometric-border {
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #14b8a6, #0d9488, #14b8a6) 1;
+            position: relative;
+        }
+        
+        .geometric-border::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            background: linear-gradient(45deg, #f59e0b, #d97706, #f59e0b);
+            z-index: -1;
+            border-radius: 12px;
+        }
+        
+        .arabic-font {
+            font-family: 'Amiri', serif;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(20, 184, 166, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #14b8a6;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full bg-gradient-to-br from-teal-800 via-teal-600 to-teal-700 islamic-pattern">
+  <div class="min-h-full p-4">
+   <div class="max-w-4xl mx-auto"><!-- Header Section -->
+    <div class="geometric-border bg-white rounded-lg shadow-2xl mb-6 p-8">
+     <div class="text-center"><!-- Bismillah -->
+      <div class="arabic-font text-3xl text-teal-700 mb-4" id="bismillah-display">
+       بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+      </div><!-- Main Title -->
+      <h1 class="text-4xl font-bold text-teal-800 mb-2" id="main-title-display">REKAP INFAQ BULANAN</h1><!-- Subtitle -->
+      <h2 class="text-xl text-amber-600 font-semibold" id="subtitle-display">LPQ Baitul Qurro Cikiwul 2025-2026</h2>
+     </div>
+    </div><!-- Main Content -->
+    <div class="geometric-border bg-white rounded-lg shadow-2xl p-8"><!-- Home View -->
+     <div id="home-view" class="fade-in">
+      <h3 class="text-2xl font-bold text-teal-800 mb-6 text-center">Pilih Jenjang</h3>
+      <div class="grid md:grid-cols-3 gap-6"><button onclick="showJenjang('TPQ A')" class="jenjang-card bg-gradient-to-br from-teal-400 to-yellow-300 hover:from-teal-500 hover:to-yellow-400 border-2 border-teal-300 rounded-lg p-6 transition-all duration-300 transform hover:scale-105 shadow-lg">
+        <div class="text-center">
+         <div class="text-4xl mb-3">
+          🌅
+         </div>
+         <h4 class="text-xl font-bold text-white mb-2 drop-shadow-lg">TPQ A</h4>
+         <p class="text-white font-bold drop-shadow-lg">Pengajian Siang</p>
+        </div></button> <button onclick="showJenjang('TPQ B')" class="jenjang-card bg-gradient-to-br from-teal-400 to-yellow-300 hover:from-teal-500 hover:to-yellow-400 border-2 border-teal-300 rounded-lg p-6 transition-all duration-300 transform hover:scale-105 shadow-lg">
+        <div class="text-center">
+         <div class="text-4xl mb-3">
+          🌇
+         </div>
+         <h4 class="text-xl font-bold text-white mb-2 drop-shadow-lg">TPQ B</h4>
+         <p class="text-white font-bold drop-shadow-lg">Pengajian Sore</p>
+        </div></button> <button onclick="showJenjang('TQA')" class="jenjang-card bg-gradient-to-br from-teal-400 to-yellow-300 hover:from-teal-500 hover:to-yellow-400 border-2 border-teal-300 rounded-lg p-6 transition-all duration-300 transform hover:scale-105 shadow-lg">
+        <div class="text-center">
+         <div class="text-4xl mb-3">
+          🌙
+         </div>
+         <h4 class="text-xl font-bold text-white mb-2 drop-shadow-lg">TQA</h4>
+         <p class="text-white font-bold drop-shadow-lg">Maghrib Mengaji</p>
+        </div></button>
+      </div>
+     </div><!-- Form View -->
+     <div id="form-view" class="hidden fade-in">
+      <div class="flex items-center justify-between mb-6"><button onclick="showHome()" class="flex items-center text-teal-600 hover:text-teal-800 transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg> Kembali </button>
+       <h3 id="form-title" class="text-2xl font-bold text-teal-800"></h3>
+       <div></div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-8"><!-- Form Section -->
+       <div class="bg-teal-50 rounded-lg p-6">
+        <h4 class="text-xl font-semibold text-teal-800 mb-4">📝 Input Data Infaq</h4>
+        <form id="infaq-form" class="space-y-4"><!-- Nama Santri -->
+         <div><label for="nama-santri" class="block text-sm font-semibold text-teal-800 mb-2">Nama Santri</label> <select id="nama-santri" required class="w-full px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors"> <option value="">Pilih Nama Santri</option> </select>
+         </div><!-- Bulan Pembayaran -->
+         <div><label class="block text-sm font-semibold text-teal-800 mb-2">Bulan Pembayaran</label>
+          <div class="bg-white border-2 border-teal-300 rounded-lg p-3 max-h-48 overflow-y-auto">
+           <div class="grid grid-cols-2 gap-2"><label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Juli" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Juli</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Agustus" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Agustus</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="September" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">September</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Oktober" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Oktober</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="November" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">November</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Desember" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Desember</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Januari" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Januari</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Februari" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Februari</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Maret" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Maret</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="April" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">April</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Mei" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Mei</span> </label> <label class="flex items-center space-x-2 cursor-pointer hover:bg-teal-50 p-2 rounded"> <input type="checkbox" value="Juni" class="bulan-checkbox text-teal-600 focus:ring-teal-500"> <span class="text-sm">Juni</span> </label>
+           </div>
+           <div class="mt-3 pt-2 border-t border-teal-200">
+            <div class="flex justify-between"><button type="button" onclick="selectAllMonths()" class="text-xs text-teal-600 hover:text-teal-800 underline">Pilih Semua</button> <button type="button" onclick="clearAllMonths()" class="text-xs text-teal-600 hover:text-teal-800 underline">Hapus Semua</button>
+            </div>
+            <div id="selected-months-display" class="mt-2 text-xs text-teal-700 font-medium"></div>
+           </div>
+          </div>
+         </div><!-- Tanggal Pembayaran -->
+         <div><label for="tanggal-pembayaran" class="block text-sm font-semibold text-teal-800 mb-2">Tanggal Pembayaran</label> <input type="date" id="tanggal-pembayaran" required class="w-full px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors">
+         </div><!-- Jumlah Infaq -->
+         <div><label for="jumlah-infaq" class="block text-sm font-semibold text-teal-800 mb-2">Jumlah Infaq (Rp)</label> <input type="number" id="jumlah-infaq" required min="0" step="1000" placeholder="0" class="w-full px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors">
+         </div><!-- Metode Pembayaran -->
+         <div><label for="metode-pembayaran" class="block text-sm font-semibold text-teal-800 mb-2">Metode Pembayaran</label> <select id="metode-pembayaran" required class="w-full px-4 py-3 border-2 border-teal-300 rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-colors"> <option value="">Pilih Metode Pembayaran</option> <option value="Tunai">Tunai</option> <option value="Transfer Bank">Transfer Bank</option> <option value="E-Wallet">E-Wallet</option> </select>
+         </div><!-- Submit Button -->
+         <div class="pt-4"><button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"> <span id="submit-text">Simpan Data Infaq</span>
+           <div id="submit-loading" class="loading-spinner hidden inline-block ml-2"></div></button>
+         </div>
+        </form><!-- Success Message -->
+        <div id="success-message" class="hidden mt-4 p-4 bg-green-100 border-2 border-green-300 rounded-lg">
+         <div class="flex items-center">
+          <svg class="w-6 h-6 text-green-600 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg><span class="text-green-800 font-semibold">Data infaq berhasil disimpan!</span>
+         </div>
+        </div><!-- Error Message -->
+        <div id="error-message" class="hidden mt-4 p-4 bg-red-100 border-2 border-red-300 rounded-lg">
+         <div class="flex items-center">
+          <svg class="w-6 h-6 text-red-600 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg><span id="error-text" class="text-red-800 font-semibold"></span>
+         </div>
+        </div>
+       </div><!-- Rekap Section -->
+       <div class="bg-white rounded-lg shadow-lg">
+        <div class="p-4 bg-teal-600 text-white rounded-t-lg flex justify-between items-center">
+         <h4 class="text-xl font-semibold">📊 Rekap Infaq <span id="rekap-jenjang-title"></span></h4>
+         <div class="flex gap-2"><button onclick="toggleDeleteSection()" id="manage-btn" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded text-sm transition-colors"> 🗑️ Kelola </button> <button onclick="downloadRekap()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded text-sm transition-colors"> 📥 Download </button> <button onclick="printRekap()" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded text-sm transition-colors"> 🖨️ Print </button>
+         </div>
+        </div>
+        <div id="rekap-container" class="p-4"><!-- Rekap content will be displayed here -->
+        </div><!-- Delete Records Section -->
+        <div id="delete-section" class="p-4 border-t border-teal-200 bg-red-50 hidden">
+         <h5 class="text-lg font-semibold text-red-800 mb-3">🗑️ Hapus Data Infaq</h5>
+         <div class="space-y-2 max-h-48 overflow-y-auto" id="delete-records-list"><!-- Delete records will be listed here -->
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <div class="text-center mt-6">
+     <p id="footer-display" class="text-white text-lg arabic-font mb-3">بارك الله فيكم</p>
+     <div class="text-white text-sm opacity-90">
+      <p class="mb-1">Semoga Allah memberikan keberkahan dalam setiap infaq yang diberikan</p>
+      <p class="text-xs opacity-75">© 2025 LPQ Baitul Qurro Cikiwul - Sistem Rekap Infaq Digital</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+        // Configuration object
+        const defaultConfig = {
+            bismillah_text: "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم",
+            main_title: "REKAP INFAQ BULANAN",
+            subtitle: "LPQ Baitul Qurro Cikiwul 2025-2026",
+            footer_text: "بارك الله فيكم",
+            background_color: "#0f766e",
+            surface_color: "#ffffff",
+            text_color: "#134e4a",
+            primary_action_color: "#14b8a6",
+            accent_color: "#f59e0b"
+        };
+
+        // Sample student names for each jenjang
+        const studentData = {
+            'TPQ A': [
+                'Muhammad Yusran Muktaffi',
+                'Arjuna',
+                'Waiz Fairuz Syafiq El Mahfuz',
+                'Rubina Arsana Keinara',
+                'Ahmad Isa Al-Muhajir',
+                'Muhammad Ammar Faqih',
+                'Ahmad Habibi Zamzami',
+                'Athaillah Hafidz Alvaro',
+                'Zakariya Al Anshary Mubarok',
+                'Muhammad Hanif Alhafiz',
+                'Farrel Jovian',
+                'Wafiq Abil Shodiq Arsalan',
+                'Avandi Gustakim',
+                'Muhammad Boy Abiasyah',
+                'Fatih Jiratullah Ismanto',
+                'Rama Raditia',
+                'Rayyan Ahmad Affandi',
+                'Muhamad Faris Al Arkan',
+                'Muhammad Azmi Al Farizi',
+                'Muhammad Bilal Al Fatih',
+                'Rafisqy Haidar Shatara',
+                'Khoirul Anam',
+                'Wizam Azriel Al Fatih',
+                'Azkia',
+                'Syarifah Zulfa Aulia',
+                'Alesha Alifa Hibatillah',
+                'Lutfatun Nadiroh Aprilianza',
+                'Putri Liana',
+                'Qhaira Nasyatul Ifrah',
+                'Gheziya Sakhi Hawa',
+                'Arsyila Maulida Mumtaz',
+                'Qayla Zea Manggi Ashia',
+                'Azma Hafiza Rahma',
+                'Luthfa Nisa Tarmidziyah',
+                'Keinara Hafizha Prayogo',
+                'Fatimah Zahra Lubis',
+                'Aina Talita Zahran',
+                'Ananda Shaqueena Humaira',
+                'Raisya Khaira Mumtaz',
+                'Nazwa Shaqila Anwar',
+                'Audrey Clarissa Putri',
+                'Aulia Sharah Nur Anggia',
+                'Amira Husna Mutmmainah',
+                'Aunisywara Almira Iwnsa',
+                'Azahra Nindya Saputri',
+                'Hasna Salsabila Dzulhijjah',
+                'Jelita Salsa Bila',
+                'Sarah Nur Anggia',
+                'Zhafira Nadzifah Fadhilah',
+                'Jihan Arsyfa Ulfa',
+                'Cassie Anindhita Putri'
+            ],
+            'TPQ B': [
+                'Afif Ahwal Said',
+                'Albi Lutfi Al Ghifari',
+                'Firas Arfa Alfatih',
+                'Muhamad Fadrur Rizki',
+                'Muhammad Ayyas Dzulkhairy',
+                'Muhammad Azka Abdullah',
+                'Muhammad Nauval Zuhdi Arif',
+                'Muhammad Sanwani Assyauqi',
+                'Raffa Maula Athar',
+                'Muhammad Fajri Shidiq',
+                'Dzikra Sa\'dan',
+                'Alfarizi Ayubi',
+                'Farshad Dzaky Abqary',
+                'Muhammad Akbar Rizky',
+                'Muhammad Daffa Ibnu Hafidz',
+                'Muhammad Hisyam Sahal',
+                'Muhammad Rifki Alfaqih',
+                'Qary Ahnaf Al-Azzam',
+                'Raffa Valorra Argani',
+                'Muhammad Naufal Akbar',
+                'Muhammad Rifqi Khuluqil Hasan',
+                'Muhammad Banyu Adji',
+                'Asyila Fitriyah Saputri',
+                'Adiba Syakila Azkiya',
+                'Alinka Dewi Humairah',
+                'Aluna Nada Harmonis',
+                'Andara Tanisya Alviena',
+                'Azalea Kirana Putri',
+                'Dini Ramadhani',
+                'Fahira Rusyidah Yumna',
+                'Fazlina Al Berga',
+                'Keisha Nur Azizah',
+                'Kesya Uswatun Hasanah',
+                'Maryam Taqiyya Zahira',
+                'Nila Nurul Maula',
+                'Radinka Ainuha Tsurayya',
+                'Raisa Ayudia Ramadhani',
+                'Silmi Kaafatan Althafunnisa',
+                'Aqila Rahma Fadilah',
+                'Adelia Zahra',
+                'Nabilah',
+                'Adzkia Zahra Ulfa',
+                'Nahwa Mumtazah',
+                'Aisyah Nur Aini',
+                'Aisyah Syafika Kirani',
+                'Assyilfia Rofidha Salma',
+                'Nur Afifah',
+                'Alkhalifi Muhammad Ziddan',
+                'Bahybas Ibtissam Duano',
+                'Fachri Al Ikhsan',
+                'Keanu Mulia',
+                'Muhammad Farisi Azzam',
+                'Muhammad Fikri Arrizki',
+                'Muhammad Qowiyyul Waqi',
+                'Rendi Khoirul Azam',
+                'Ridho Ibnu Malik',
+                'Zidan Al Faris',
+                'Zahra Setia Soleha',
+                'Adiba Khanza Azahra',
+                'Alifa Hibatillah',
+                'Aura Permata Sari',
+                'Caira Devina',
+                'Fatiha Nadifa Khoirunnisa',
+                'Millatu Ainun Nasihah',
+                'Naura Alifa Ramadhani',
+                'Thalita Shalsa Billa'
+            ],
+            'TQA': [
+                'Azzam Rizky Ramadhan',
+                'Adliansyah Ibnu Haikal',
+                'Eswa Anggit Pandhito',
+                'Izzul Khaeruzan',
+                'Muhammad Al Yusuf',
+                'Muhammad Rizqi Maulana',
+                'Rulian Abdul Hafiz',
+                'Muhammad Azka Fathurrohman',
+                'Muhammad Zaki Rabbani',
+                'Muhammad Reihan Saputra',
+                'Rahmat',
+                'Muhammad Alvin Rizky',
+                'Muhammad Krisna',
+                'Zidan Rizki Fakhrullah',
+                'Nabil Aldhiyasyifa',
+                'Andika Pernanda',
+                'Fabian Alfarezel',
+                'Abdurrahman Zakaria',
+                'Farhan',
+                'Fauzi Fadhillah',
+                'Muhammad Arif Wildan',
+                'Fawaz Aghna Mauludi',
+                'Ghaisan Achmad Al Tamis',
+                'Rafi Dzakwan Affansyah',
+                'Aiko Azmi Ardiana',
+                'Ezhar Ghazwa Bramantaha',
+                'Faris Julian Ismanto',
+                'Febryan Nur Alfiansyah',
+                'Hafizh Bilal Syafiq',
+                'Hasby Jannatan Amrulloh',
+                'Ibnu Fazri Aonillah',
+                'Langit Aza Abqhory',
+                'Rahmat Aprilio Saputra',
+                'Adara Fariha Qurrota\'ayuni',
+                'Aprillia Rahadatul \'Aisy',
+                'Dela Adelia',
+                'Dhea Nurmaulida Putri',
+                'Esa Kirana',
+                'Jingga',
+                'Karisa Maharani Putri',
+                'May',
+                'Naysilla Lovia Maulida',
+                'Nazwa',
+                'Putri Khaniyah Muksin',
+                'Quthaifa Zahra Awwaliya',
+                'Rizka Khoirunisa\'aji Nurrahmadhani',
+                'Syafa Sabilla Fitriyani',
+                'Zahra Tirta Ramadhani'
+            ]
+        };
+
+        let currentJenjang = '';
+        let allRecords = [];
+
+        // Data handler for SDK
+        const dataHandler = {
+            onDataChanged(data) {
+                allRecords = data;
+                updateRecordsDisplay();
+            }
+        };
+
+        // Initialize SDK and app
+        async function initializeApp() {
+            if (window.dataSdk) {
+                const result = await window.dataSdk.init(dataHandler);
+                if (!result.isOk) {
+                    console.error('Failed to initialize data SDK');
+                }
+            }
+
+            if (window.elementSdk) {
+                await window.elementSdk.init({
+                    defaultConfig,
+                    onConfigChange: async (config) => {
+                        document.getElementById('bismillah-display').textContent = config.bismillah_text || defaultConfig.bismillah_text;
+                        document.getElementById('main-title-display').textContent = config.main_title || defaultConfig.main_title;
+                        document.getElementById('subtitle-display').textContent = config.subtitle || defaultConfig.subtitle;
+                        document.getElementById('footer-display').textContent = config.footer_text || defaultConfig.footer_text;
+                        
+                        // Apply colors
+                        const backgroundColor = config.background_color || defaultConfig.background_color;
+                        const surfaceColor = config.surface_color || defaultConfig.surface_color;
+                        const textColor = config.text_color || defaultConfig.text_color;
+                        const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+                        const accentColor = config.accent_color || defaultConfig.accent_color;
+                        
+                        document.body.style.background = `linear-gradient(to bottom right, ${backgroundColor}, ${primaryActionColor})`;
+                        
+                        const surfaces = document.querySelectorAll('.geometric-border');
+                        surfaces.forEach(surface => {
+                            surface.style.backgroundColor = surfaceColor;
+                        });
+                        
+                        const textElements = document.querySelectorAll('h1, h2, h3, h4, label, .text-teal-800');
+                        textElements.forEach(element => {
+                            element.style.color = textColor;
+                        });
+                        
+                        const buttons = document.querySelectorAll('button[type="submit"], .jenjang-card');
+                        buttons.forEach(button => {
+                            if (button.type === 'submit') {
+                                button.style.background = `linear-gradient(to right, ${primaryActionColor}, ${textColor})`;
+                            }
+                        });
+                        
+                        const accents = document.querySelectorAll('#subtitle-display');
+                        accents.forEach(accent => {
+                            accent.style.color = accentColor;
+                        });
+                    },
+                    mapToCapabilities: (config) => ({
+                        recolorables: [
+                            {
+                                get: () => config.background_color || defaultConfig.background_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ background_color: value });
+                                    }
+                                }
+                            },
+                            {
+                                get: () => config.surface_color || defaultConfig.surface_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ surface_color: value });
+                                    }
+                                }
+                            },
+                            {
+                                get: () => config.text_color || defaultConfig.text_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ text_color: value });
+                                    }
+                                }
+                            },
+                            {
+                                get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ primary_action_color: value });
+                                    }
+                                }
+                            },
+                            {
+                                get: () => config.accent_color || defaultConfig.accent_color,
+                                set: (value) => {
+                                    if (window.elementSdk) {
+                                        window.elementSdk.setConfig({ accent_color: value });
+                                    }
+                                }
+                            }
+                        ],
+                        borderables: [],
+                        fontEditable: undefined,
+                        fontSizeable: undefined
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ['bismillah_text', config.bismillah_text || defaultConfig.bismillah_text],
+                        ['main_title', config.main_title || defaultConfig.main_title],
+                        ['subtitle', config.subtitle || defaultConfig.subtitle],
+                        ['footer_text', config.footer_text || defaultConfig.footer_text]
+                    ])
+                });
+            }
+        }
+
+        // Navigation functions
+        function showHome() {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('form-view').classList.add('hidden');
+            currentJenjang = '';
+        }
+
+        function showJenjang(jenjang) {
+            currentJenjang = jenjang;
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('form-view').classList.remove('hidden');
+            
+            document.getElementById('form-title').textContent = jenjang;
+            document.getElementById('rekap-jenjang-title').textContent = jenjang;
+            populateStudentNames(jenjang);
+            initializeMonthCheckboxes();
+            resetForm();
+            updateRekapDisplay(jenjang);
+        }
+
+        // Populate student names dropdown
+        function populateStudentNames(jenjang) {
+            const select = document.getElementById('nama-santri');
+            select.innerHTML = '<option value="">Pilih Nama Santri</option>';
+            
+            if (studentData[jenjang]) {
+                studentData[jenjang].forEach((name, index) => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = `${index + 1}. ${name}`;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('infaq-form').reset();
+            document.querySelectorAll('.bulan-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateSelectedMonthsDisplay();
+            hideMessages();
+        }
+
+        // Handle month selection
+        function selectAllMonths() {
+            document.querySelectorAll('.bulan-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            updateSelectedMonthsDisplay();
+        }
+
+        function clearAllMonths() {
+            document.querySelectorAll('.bulan-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateSelectedMonthsDisplay();
+        }
+
+        function updateSelectedMonthsDisplay() {
+            const selectedMonths = Array.from(document.querySelectorAll('.bulan-checkbox:checked')).map(cb => cb.value);
+            const display = document.getElementById('selected-months-display');
+            
+            if (selectedMonths.length === 0) {
+                display.textContent = 'Belum ada bulan yang dipilih';
+                display.className = 'mt-2 text-xs text-gray-500 font-medium';
+            } else {
+                display.textContent = `Dipilih: ${selectedMonths.join(', ')}`;
+                display.className = 'mt-2 text-xs text-teal-700 font-medium';
+            }
+        }
+
+        // Add event listeners for month checkboxes
+        function initializeMonthCheckboxes() {
+            document.querySelectorAll('.bulan-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectedMonthsDisplay);
+            });
+            updateSelectedMonthsDisplay();
+        }
+
+        // Show/hide messages
+        function showSuccessMessage() {
+            document.getElementById('success-message').classList.remove('hidden');
+            document.getElementById('error-message').classList.add('hidden');
+            setTimeout(() => {
+                hideMessages();
+            }, 3000);
+        }
+
+        function showErrorMessage(message) {
+            document.getElementById('error-text').textContent = message;
+            document.getElementById('error-message').classList.remove('hidden');
+            document.getElementById('success-message').classList.add('hidden');
+        }
+
+        function hideMessages() {
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('error-message').classList.add('hidden');
+        }
+
+        // Show/hide loading state
+        function setLoadingState(loading) {
+            const submitBtn = document.getElementById('submit-btn');
+            const submitText = document.getElementById('submit-text');
+            const submitLoading = document.getElementById('submit-loading');
+            
+            if (loading) {
+                submitBtn.disabled = true;
+                submitText.textContent = 'Menyimpan...';
+                submitLoading.classList.remove('hidden');
+            } else {
+                submitBtn.disabled = false;
+                submitText.textContent = 'Simpan Data Infaq';
+                submitLoading.classList.add('hidden');
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('infaq-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get selected months
+            const selectedMonths = Array.from(document.querySelectorAll('.bulan-checkbox:checked')).map(cb => cb.value);
+            
+            if (selectedMonths.length === 0) {
+                showErrorMessage('Silakan pilih minimal satu bulan pembayaran.');
+                return;
+            }
+            
+            if (allRecords.length + selectedMonths.length > 999) {
+                showErrorMessage(`Batas maksimum 999 data akan terlampaui. Saat ini ada ${allRecords.length} data, dan Anda akan menambah ${selectedMonths.length} data lagi.`);
+                return;
+            }
+            
+            setLoadingState(true);
+            hideMessages();
+            
+            const baseData = {
+                jenjang: currentJenjang,
+                nama_santri: document.getElementById('nama-santri').value,
+                tanggal_pembayaran: document.getElementById('tanggal-pembayaran').value,
+                jumlah_infaq: parseInt(document.getElementById('jumlah-infaq').value),
+                metode_pembayaran: document.getElementById('metode-pembayaran').value,
+                created_at: new Date().toISOString()
+            };
+            
+            let successCount = 0;
+            let errorCount = 0;
+            
+            // Create separate record for each selected month
+            for (const month of selectedMonths) {
+                const formData = {
+                    ...baseData,
+                    id: `${Date.now()}_${month}_${Math.random().toString(36).substr(2, 9)}`,
+                    bulan_pembayaran: month
+                };
+                
+                if (window.dataSdk) {
+                    const result = await window.dataSdk.create(formData);
+                    
+                    if (result.isOk) {
+                        successCount++;
+                    } else {
+                        errorCount++;
+                    }
+                }
+            }
+            
+            if (successCount > 0 && errorCount === 0) {
+                showSuccessMessage();
+                resetForm();
+            } else if (successCount > 0 && errorCount > 0) {
+                showErrorMessage(`${successCount} data berhasil disimpan, ${errorCount} data gagal. Silakan coba lagi untuk data yang gagal.`);
+            } else {
+                showErrorMessage('Gagal menyimpan semua data. Silakan coba lagi.');
+            }
+            
+            setLoadingState(false);
+        });
+
+        // Update records display
+        function updateRecordsDisplay() {
+            if (currentJenjang) {
+                updateRekapDisplay(currentJenjang);
+                // Update delete section if it's visible
+                const deleteSection = document.getElementById('delete-section');
+                if (!deleteSection.classList.contains('hidden')) {
+                    updateDeleteRecordsList();
+                }
+            }
+        }
+
+        // Toggle delete section visibility
+        function toggleDeleteSection() {
+            const deleteSection = document.getElementById('delete-section');
+            const manageBtn = document.getElementById('manage-btn');
+            
+            if (deleteSection.classList.contains('hidden')) {
+                deleteSection.classList.remove('hidden');
+                manageBtn.textContent = '❌ Tutup';
+                updateDeleteRecordsList();
+            } else {
+                deleteSection.classList.add('hidden');
+                manageBtn.textContent = '🗑️ Kelola';
+            }
+        }
+
+        // Update delete records list
+        function updateDeleteRecordsList() {
+            const container = document.getElementById('delete-records-list');
+            const jenjangRecords = allRecords.filter(record => record.jenjang === currentJenjang);
+            
+            if (jenjangRecords.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-gray-500">
+                        <p class="text-sm">Tidak ada data untuk dihapus</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort records by date (newest first)
+            jenjangRecords.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            
+            container.innerHTML = jenjangRecords.map(record => `
+                <div class="flex items-center justify-between bg-white border border-red-200 rounded-lg p-3">
+                    <div class="flex-1">
+                        <div class="font-semibold text-sm text-gray-800">${record.nama_santri}</div>
+                        <div class="text-xs text-gray-600">
+                            ${record.bulan_pembayaran} • Rp ${record.jumlah_infaq.toLocaleString('id-ID')} • ${record.metode_pembayaran}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            Tanggal: ${new Date(record.tanggal_pembayaran).toLocaleDateString('id-ID')}
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button 
+                            onclick="confirmDeleteRecord('${record.__backendId}')" 
+                            id="delete-btn-${record.__backendId}"
+                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-semibold transition-colors"
+                        >
+                            Hapus
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Confirm delete record
+        function confirmDeleteRecord(recordId) {
+            const record = allRecords.find(r => r.__backendId === recordId);
+            if (!record) return;
+            
+            const deleteBtn = document.getElementById(`delete-btn-${recordId}`);
+            const originalText = deleteBtn.textContent;
+            
+            // Show confirmation
+            deleteBtn.textContent = 'Yakin?';
+            deleteBtn.className = 'bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-xs font-semibold transition-colors';
+            
+            // Add confirm and cancel buttons
+            const container = deleteBtn.parentElement;
+            
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = '✓';
+            confirmBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-xs font-semibold transition-colors';
+            confirmBtn.onclick = () => deleteRecord(recordId);
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = '✗';
+            cancelBtn.className = 'bg-gray-500 hover:bg-gray-600 text-white px-2 py-1 rounded text-xs font-semibold transition-colors';
+            cancelBtn.onclick = () => {
+                deleteBtn.textContent = originalText;
+                deleteBtn.className = 'bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-semibold transition-colors';
+                confirmBtn.remove();
+                cancelBtn.remove();
+            };
+            
+            container.appendChild(confirmBtn);
+            container.appendChild(cancelBtn);
+        }
+
+        // Delete record
+        async function deleteRecord(recordId) {
+            const record = allRecords.find(r => r.__backendId === recordId);
+            if (!record) return;
+            
+            const deleteBtn = document.getElementById(`delete-btn-${recordId}`);
+            deleteBtn.textContent = 'Menghapus...';
+            deleteBtn.disabled = true;
+            
+            if (window.dataSdk) {
+                const result = await window.dataSdk.delete(record);
+                
+                if (result.isOk) {
+                    // Success - the onDataChanged will update the UI
+                    showSuccessMessage();
+                } else {
+                    showErrorMessage('Gagal menghapus data. Silakan coba lagi.');
+                    deleteBtn.textContent = 'Hapus';
+                    deleteBtn.disabled = false;
+                }
+            }
+        }
+
+        // Update rekap display for current jenjang
+        function updateRekapDisplay(jenjang) {
+            const container = document.getElementById('rekap-container');
+            const months = ['Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
+            
+            container.innerHTML = '';
+            
+            // Get records for this specific jenjang
+            const jenjangRecords = allRecords.filter(record => record.jenjang === jenjang);
+            
+            // Group records by student name and month
+            const studentPayments = {};
+            
+            // Initialize all students for this jenjang
+            if (studentData[jenjang]) {
+                studentData[jenjang].forEach(studentName => {
+                    studentPayments[studentName] = {};
+                    months.forEach(month => {
+                        studentPayments[studentName][month] = null;
+                    });
+                });
+            }
+            
+            // Fill in payment data
+            jenjangRecords.forEach(record => {
+                if (studentPayments[record.nama_santri]) {
+                    studentPayments[record.nama_santri][record.bulan_pembayaran] = {
+                        tanggal: new Date(record.tanggal_pembayaran).getDate(),
+                        jumlah: record.jumlah_infaq,
+                        metode: record.metode_pembayaran
+                    };
+                }
+            });
+            
+            // Calculate statistics for this jenjang
+            const total = jenjangRecords.reduce((sum, record) => sum + record.jumlah_infaq, 0);
+            const totalStudents = studentData[jenjang] ? studentData[jenjang].length : 0;
+            const paidStudents = new Set(jenjangRecords.map(record => record.nama_santri)).size;
+            
+            // Create summary section
+            const summarySection = document.createElement('div');
+            summarySection.className = 'bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-lg p-4 mb-4';
+            
+            summarySection.innerHTML = `
+                <div class="grid grid-cols-3 gap-2 text-center text-sm">
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2">
+                        <div class="text-lg font-bold">Rp ${total.toLocaleString('id-ID')}</div>
+                        <div class="text-xs opacity-90">Total</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2">
+                        <div class="text-lg font-bold">${paidStudents}</div>
+                        <div class="text-xs opacity-90">Sudah Bayar</div>
+                    </div>
+                    <div class="bg-white bg-opacity-20 rounded-lg p-2">
+                        <div class="text-lg font-bold">${totalStudents}</div>
+                        <div class="text-xs opacity-90">Total Santri</div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(summarySection);
+            
+            // Create table section
+            const tableSection = document.createElement('div');
+            tableSection.className = 'overflow-hidden';
+            
+            if (jenjangRecords.length === 0) {
+                tableSection.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <div class="text-4xl mb-2">📝</div>
+                        <p class="text-sm">Belum ada data infaq</p>
+                        <p class="text-xs mt-1">Input data di sebelah kiri</p>
+                    </div>
+                `;
+            } else {
+                tableSection.innerHTML = `
+                    <div class="overflow-x-auto max-h-96">
+                        <table class="w-full border-collapse border border-teal-300 text-xs">
+                            <thead class="sticky top-0">
+                                <tr class="bg-teal-600 text-white">
+                                    <th class="border border-teal-300 px-1 py-2 text-center font-semibold sticky left-0 bg-teal-600 min-w-8 text-xs">No</th>
+                                    <th class="border border-teal-300 px-2 py-2 text-left font-semibold sticky left-8 bg-teal-600 min-w-32 text-xs">Nama Santri</th>
+                                    ${months.map(month => `
+                                        <th class="border border-teal-300 px-1 py-2 text-center font-semibold min-w-12 text-xs">${month.substring(0,3)}</th>
+                                    `).join('')}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${Object.keys(studentPayments).map((studentName, index) => `
+                                    <tr class="${index % 2 === 0 ? 'bg-teal-50' : 'bg-white'} hover:bg-teal-100 transition-colors">
+                                        <td class="border border-teal-300 px-1 py-1 text-center font-medium text-teal-800 sticky left-0 ${index % 2 === 0 ? 'bg-teal-50' : 'bg-white'} text-xs">${index + 1}</td>
+                                        <td class="border border-teal-300 px-2 py-1 font-medium text-teal-800 sticky left-8 ${index % 2 === 0 ? 'bg-teal-50' : 'bg-white'} text-xs">${studentName.length > 20 ? studentName.substring(0, 20) + '...' : studentName}</td>
+                                        ${months.map(month => {
+                                            const payment = studentPayments[studentName][month];
+                                            if (payment) {
+                                                const monthNames = {
+                                                    'Juli': 'Jul', 'Agustus': 'Agu', 'September': 'Sep', 'Oktober': 'Okt',
+                                                    'November': 'Nov', 'Desember': 'Des', 'Januari': 'Jan', 'Februari': 'Feb',
+                                                    'Maret': 'Mar', 'April': 'Apr', 'Mei': 'Mei', 'Juni': 'Jun'
+                                                };
+                                                return `<td class="border border-teal-300 px-1 py-1 text-center">
+                                                    <div class="bg-green-100 text-green-800 rounded px-1 text-xs font-semibold" title="Rp ${payment.jumlah.toLocaleString('id-ID')} - ${payment.metode}">
+                                                        ${payment.tanggal}/${monthNames[month]}
+                                                    </div>
+                                                </td>`;
+                                            } else {
+                                                return `<td class="border border-teal-300 px-1 py-1 text-center">
+                                                    <div class="text-gray-400 text-xs">-</div>
+                                                </td>`;
+                                            }
+                                        }).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            container.appendChild(tableSection);
+        }
+
+
+
+        // Download rekap as Excel-compatible CSV
+        function downloadRekap() {
+            if (!currentJenjang) return;
+            
+            const jenjangRecords = allRecords.filter(record => record.jenjang === currentJenjang);
+            const months = ['Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
+            
+            // Group records by student name and month
+            const studentPayments = {};
+            
+            if (studentData[currentJenjang]) {
+                studentData[currentJenjang].forEach(studentName => {
+                    studentPayments[studentName] = {};
+                    months.forEach(month => {
+                        studentPayments[studentName][month] = null;
+                    });
+                });
+            }
+            
+            jenjangRecords.forEach(record => {
+                if (studentPayments[record.nama_santri]) {
+                    const monthNames = {
+                        'Juli': 'Jul', 'Agustus': 'Agu', 'September': 'Sep', 'Oktober': 'Okt',
+                        'November': 'Nov', 'Desember': 'Des', 'Januari': 'Jan', 'Februari': 'Feb',
+                        'Maret': 'Mar', 'April': 'Apr', 'Mei': 'Mei', 'Juni': 'Jun'
+                    };
+                    const payment = {
+                        tanggal: new Date(record.tanggal_pembayaran).getDate(),
+                        bulan: monthNames[record.bulan_pembayaran],
+                        jumlah: record.jumlah_infaq,
+                        metode: record.metode_pembayaran
+                    };
+                    studentPayments[record.nama_santri][record.bulan_pembayaran] = `${payment.tanggal}/${payment.bulan} (Rp${payment.jumlah.toLocaleString('id-ID')})`;
+                }
+            });
+            
+            // Create CSV content
+            let csvContent = '\uFEFF'; // BOM for UTF-8
+            csvContent += `REKAP INFAQ BULANAN ${currentJenjang}\n`;
+            csvContent += `LPQ Baitul Qurro Cikiwul 2025-2026\n\n`;
+            
+            // Header
+            csvContent += 'No,Nama Santri,' + months.join(',') + '\n';
+            
+            // Data rows
+            Object.keys(studentPayments).forEach((studentName, index) => {
+                const row = [
+                    index + 1,
+                    `"${studentName}"`,
+                    ...months.map(month => {
+                        const payment = studentPayments[studentName][month];
+                        return payment ? `"${payment}"` : '"-"';
+                    })
+                ];
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Statistics
+            const total = jenjangRecords.reduce((sum, record) => sum + record.jumlah_infaq, 0);
+            const paidStudents = new Set(jenjangRecords.map(record => record.nama_santri)).size;
+            const totalStudents = studentData[currentJenjang] ? studentData[currentJenjang].length : 0;
+            
+            csvContent += '\n';
+            csvContent += `Total Terkumpul,Rp${total.toLocaleString('id-ID')}\n`;
+            csvContent += `Santri Sudah Bayar,${paidStudents}\n`;
+            csvContent += `Total Santri,${totalStudents}\n`;
+            
+            // Download
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `Rekap_Infaq_${currentJenjang}_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Print rekap
+        function printRekap() {
+            if (!currentJenjang) return;
+            
+            const jenjangRecords = allRecords.filter(record => record.jenjang === currentJenjang);
+            const months = ['Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
+            
+            // Group records by student name and month
+            const studentPayments = {};
+            
+            if (studentData[currentJenjang]) {
+                studentData[currentJenjang].forEach(studentName => {
+                    studentPayments[studentName] = {};
+                    months.forEach(month => {
+                        studentPayments[studentName][month] = null;
+                    });
+                });
+            }
+            
+            jenjangRecords.forEach(record => {
+                if (studentPayments[record.nama_santri]) {
+                    const monthNames = {
+                        'Juli': 'Jul', 'Agustus': 'Agu', 'September': 'Sep', 'Oktober': 'Okt',
+                        'November': 'Nov', 'Desember': 'Des', 'Januari': 'Jan', 'Februari': 'Feb',
+                        'Maret': 'Mar', 'April': 'Apr', 'Mei': 'Mei', 'Juni': 'Jun'
+                    };
+                    studentPayments[record.nama_santri][record.bulan_pembayaran] = {
+                        tanggal: new Date(record.tanggal_pembayaran).getDate(),
+                        bulan: monthNames[record.bulan_pembayaran],
+                        jumlah: record.jumlah_infaq,
+                        metode: record.metode_pembayaran
+                    };
+                }
+            });
+            
+            // Calculate statistics
+            const total = jenjangRecords.reduce((sum, record) => sum + record.jumlah_infaq, 0);
+            const paidStudents = new Set(jenjangRecords.map(record => record.nama_santri)).size;
+            const totalStudents = studentData[currentJenjang] ? studentData[currentJenjang].length : 0;
+            
+            // Create print content
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Rekap Infaq ${currentJenjang}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .arabic { font-family: 'Times New Roman', serif; font-size: 18px; margin-bottom: 10px; }
+                        .title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+                        .subtitle { font-size: 16px; color: #666; margin-bottom: 20px; }
+                        .stats { display: flex; justify-content: space-around; margin-bottom: 20px; padding: 15px; background: #f5f5f5; }
+                        .stat-item { text-align: center; }
+                        .stat-value { font-size: 18px; font-weight: bold; }
+                        .stat-label { font-size: 12px; color: #666; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                        th, td { border: 1px solid #333; padding: 8px; text-align: center; font-size: 10px; }
+                        th { background-color: #f0f0f0; font-weight: bold; }
+                        .student-name { text-align: left; max-width: 150px; }
+                        .paid { background-color: #d4edda; font-weight: bold; }
+                        .footer { text-align: center; margin-top: 30px; font-style: italic; }
+                        @media print {
+                            body { margin: 0; }
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
+                        <div class="title">REKAP INFAQ BULANAN</div>
+                        <div class="subtitle">LPQ Baitul Qurro Cikiwul 2025-2026</div>
+                        <div class="subtitle">Jenjang: ${currentJenjang}</div>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value">Rp ${total.toLocaleString('id-ID')}</div>
+                            <div class="stat-label">Total Terkumpul</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${paidStudents}</div>
+                            <div class="stat-label">Santri Sudah Bayar</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${totalStudents}</div>
+                            <div class="stat-label">Total Santri</div>
+                        </div>
+                    </div>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;">No</th>
+                                <th style="width: 200px;">Nama Santri</th>
+                                ${months.map(month => `<th style="width: 60px;">${month.substring(0,3)}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${Object.keys(studentPayments).map((studentName, index) => `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td class="student-name">${studentName}</td>
+                                    ${months.map(month => {
+                                        const payment = studentPayments[studentName][month];
+                                        if (payment) {
+                                            return `<td class="paid">${payment.tanggal}/${payment.bulan}</td>`;
+                                        } else {
+                                            return `<td>-</td>`;
+                                        }
+                                    }).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                    
+                    <div class="footer">
+                        <p>Dicetak pada: ${new Date().toLocaleDateString('id-ID', { 
+                            weekday: 'long', 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric' 
+                        })}</p>
+                        <p class="arabic">بارك الله فيكم</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        }
+
+
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'997c0674047ea023',t:'MTc2MjAwNjc0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
